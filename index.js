@@ -4,9 +4,12 @@ const app = express()
 require('dotenv/config')
 const startRoute = require('./routes/start')
 const stopRoute = require('./routes/stop')
+const cors = require('cors')
+
 
 
 //Middleware routes
+app.use(cors())
 app.use(json())
 app.use('/start', startRoute)
 app.use('/stop', stopRoute)
