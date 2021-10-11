@@ -13,6 +13,7 @@ app.use(cors())
 app.use(json())
 app.use('/start', startRoute)
 app.use('/stop', stopRoute)
+app.use(express.static('public'));
 
 
 //Routes

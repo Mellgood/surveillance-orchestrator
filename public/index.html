@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PiVeillance</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <h2>Controlla tutto</h2>
+    <button id="tutto-on" class="button" onclick="cliccata(this)">Accendi tutto</button>
+    <button id="tutto-off" class="button" onclick="cliccata(this)">Spegni tutto</button>
+
+    <h2>Controlli separati</h2>
+    <button id="sala-on" class="button" onclick="cliccata(this)">Accendi Sala</button>
+    <button id="sala-off" class="button" onclick="cliccata(this)">Spegni Sala</button>
+    <br>
+    <button id="cucina-on" class="button" onclick="cliccata(this)">Accendi Cucina</button>
+    <button id="cucina-off" class="button" onclick="cliccata(this)">Spegni Cucina</button>
+
+    <h2>Stato:</h2>
+    <button id="stato-cucina" class="button">Cucina</button>
+    <button id="stato-sala" class="button">Sala</button>
+
+
+    <script>
+
+        const cliccata = (e)=>{
+            console.log(e.id)
+
+            switch (e.id) {
+                case "tutto-on":
+                    accendiCucina()
+                    accendiSala()
+                    break
+                case "tutto-off":
+                    spegniCucina()
+                    spegniSala()
+                    break
+                case "cucina-on":
+                    accendiCucina()
+                    break
+                case "sala-on":
+                    accendiSala()
+                    break
+                case "cucina-off":
+                    spegniCucina()
+                    break
+                case "sala-off":
+                    spegniSala()
+                    break
+
+            }
+
+        }
+
+        function getElemStatoCucina(){
+            return document.getElementById("stato-cucina")
+        }
+
+        function getElemStatoSala(){
+            return document.getElementById("stato-sala")
+        }
+
+        function accendiCucina(){
+            httpPost("http://degaspi.ddns.net:3030/start")
+            getElemStatoCucina().classList.remove("red")
+            getElemStatoCucina().classList.add("green")
+        }
+
+        function accendiSala(){
+            httpPost("http://degaspi.ddns.net:3031/start")
+            getElemStatoSala().classList.remove("red")
+            getElemStatoSala().classList.add("green")
+        }
+
+        function spegniSala(){
+            let res = httpPost("http://degaspi.ddns.net:3031/stop")
+            console.log(res)
+            getElemStatoSala().classList.remove("green")
+            getElemStatoSala().classList.add("red")
+
+        }
+
+        function spegniCucina(){
+            let res = httpPost("http://degaspi.ddns.net:3030/stop")
+            console.log(res)
+            getElemStatoCucina().classList.remove("green")
+            getElemStatoCucina().classList.add("red")
+        }
+
+        function httpGet(theUrl)
+        {
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+            xmlHttp.send( null );
+            return xmlHttp.responseText;
+        }
+
+        function httpPost(theUrl, params)
+        {
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open( "POST", theUrl, false ); // false for synchronous request
+            xmlHttp.send( params );
+            return xmlHttp.responseText;
+        }
+    </script>
+</body>
+</html>

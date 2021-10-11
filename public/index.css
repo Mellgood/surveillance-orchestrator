@@ -1,0 +1,13 @@
+.button {
+    margin: 10px;
+    width: 100px;
+    height: 40px;
+}
+
+.green {
+    background-color: #4ac74a;
+}
+
+.red {
+    background-color: red;
+}
